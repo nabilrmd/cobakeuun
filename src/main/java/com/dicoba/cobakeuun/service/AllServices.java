@@ -32,35 +32,35 @@ public class AllServices {
     TbUserRepository tbUserRepository;
 
     @Transactional
-    public ResponseEntity<MessageModel> insertUser(InserUserPojo inserUserPojo){
+    public ResponseEntity<MessageModel> insertUser(InserUserPojo inserUserPojo) {
         MessageModel msg = new MessageModel();
-        try{
+        try {
             TbUser newUser = new TbUser();
 
             newUser.setNamaUser(inserUserPojo.getNamaUser());
             TbUser newestUser = tbUserRepository.save(newUser);
 
-            if (newestUser.getIdUser() != null){
+            if (newestUser.getIdUser() != null) {
                 msg.setMessage("User berhasil ditambahkan");
                 msg.setStatus(true);
                 msg.setData(newestUser);
-            }else {
+            } else {
                 msg.setMessage("User gagal ditambahkan");
                 msg.setStatus(false);
             }
             return ResponseEntity.ok(msg);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             msg.setMessage(e.getMessage());
             msg.setStatus(false);
             return ResponseEntity.badRequest().body(msg);
         }
     }
 
-@Transactional
-    public ResponseEntity<MessageModel> insertBarang(InserBarangPojo inserBarangPojo){
+    @Transactional
+    public ResponseEntity<MessageModel> insertBarang(InserBarangPojo inserBarangPojo) {
         MessageModel msg = new MessageModel();
-        try{
+        try {
             TbBarang newBarang = new TbBarang();
 
             newBarang.setNamaBarang(inserBarangPojo.getNamaBarang());
@@ -68,36 +68,36 @@ public class AllServices {
             newBarang.setHargaBarang(inserBarangPojo.getHargaBarang());
             TbBarang newestBarang = tbBarangRepository.save(newBarang);
 
-            if (newestBarang.getIdBarang() != null){
+            if (newestBarang.getIdBarang() != null) {
                 msg.setMessage("User berhasil ditambahkan");
                 msg.setStatus(true);
                 msg.setData(newestBarang);
-            }else {
+            } else {
                 msg.setMessage("User gagal ditambahkan");
                 msg.setStatus(false);
             }
             return ResponseEntity.ok(msg);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             msg.setMessage(e.getMessage());
             msg.setStatus(false);
             return ResponseEntity.badRequest().body(msg);
         }
     }
 
-@Transactional
-    public ResponseEntity<MessageModel> inserPenjualan(InsertPenjualanPojo insertPenjualanPojo){
+    @Transactional
+    public ResponseEntity<MessageModel> inserPenjualan(InsertPenjualanPojo insertPenjualanPojo) {
         MessageModel msg = new MessageModel();
-        try{
+        try {
             TbUser userCheck = tbUserRepository.getUserCheck(insertPenjualanPojo.getNamaUser());
             TbBarang barangCheck = tbBarangRepository.getBarangCheck(insertPenjualanPojo.getNamaBarang());
 
-            if (userCheck == null){
+            if (userCheck == null) {
                 msg.setMessage("User tidak ditemukan");
                 msg.setStatus(false);
                 return ResponseEntity.badRequest().body(msg);
-            }else if (barangCheck != null){
-                if(barangCheck.getStokBarang() < insertPenjualanPojo.getJumlahBarang()) {
+            } else if (barangCheck != null) {
+                if (barangCheck.getStokBarang() < insertPenjualanPojo.getJumlahBarang()) {
                     msg.setMessage("Stok Tidak Cukup");
                     msg.setStatus(false);
                     return ResponseEntity.badRequest().body(msg);
@@ -132,18 +132,18 @@ public class AllServices {
 
             return ResponseEntity.ok(msg);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             msg.setMessage(e.getMessage());
             msg.setStatus(false);
             return ResponseEntity.badRequest().body(msg);
         }
     }
 
-    public ResponseEntity<MessageModel> getDataPenjualan () {
+    public ResponseEntity<MessageModel> getDataPenjualan() {
         MessageModel msg = new MessageModel();
-        try{
+        try {
             List<AllPenjualanPojo> dataPenjualan = tbPenjualanRepository.getAllPenjualan();
-            if (dataPenjualan.isEmpty()){
+            if (dataPenjualan.isEmpty()) {
                 msg.setMessage("Tidak ada penjualan");
                 msg.setStatus(true);
                 msg.setData(null);
@@ -154,7 +154,7 @@ public class AllServices {
                 msg.setData(dataPenjualan);
                 return ResponseEntity.ok(msg);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             msg.setMessage(e.getMessage());
             msg.setStatus(false);
             return ResponseEntity.badRequest().body(msg);
